@@ -31,6 +31,8 @@ func main() {
 
 	//ROTAS
 	e.GET("users", userHandler.GetAllUsers)
+	e.GET("user/:id", userHandler.GetUsers)
+	e.DELETE("user/:id", userHandler.RemoveUser)
 
 	//CONEXAO COM O SERVIDOR/ INICIAR
 	e.Logger.Fatal(e.Start(":8080"))

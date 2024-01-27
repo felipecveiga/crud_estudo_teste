@@ -22,3 +22,19 @@ func (s *UserService) GetAllUsers() ([]model.User,error) {
 	}
 	return users, nil
 }
+
+func (s *UserService) GetUserID(userID string) (*model.User , error) {
+	user, err := s.UserRepository.GetUserFromID(userID)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (s *UserService) RemoveUserByID(userID string) (*model.User, error){
+	user, err := s.UserRepository.RemoveUserFromID(userID)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
