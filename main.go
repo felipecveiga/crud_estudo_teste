@@ -30,9 +30,10 @@ func main() {
 	e := echo.New()
 
 	//ROTAS
-	e.GET("users", userHandler.GetAllUsers)
+	e.GET("user", userHandler.GetAllUsers)
 	e.GET("user/:id", userHandler.GetUsers)
 	e.DELETE("user/:id", userHandler.RemoveUser)
+	e.POST("user", userHandler.CreateUser)
 
 	//CONEXAO COM O SERVIDOR/ INICIAR
 	e.Logger.Fatal(e.Start(":8080"))

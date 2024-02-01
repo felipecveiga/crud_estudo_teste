@@ -31,10 +31,21 @@ func (r UserRepository) GetUserFromID(userID string) (*model.User, error) {
 	return user, nil
 }
 
-
 func (r UserRepository) RemoveUserFromID(userID string) (*model.User, error) {
 	var user *model.User
-	if err := r.DB.Where( "id = ?" , userID ).Delete(&user).Error; err != nil {
+	if err := r.DB.Where("id = ?", userID).Delete(&user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (r UserRepository) CreateUserFromBD(user *model.User) error {
+	return r.DB.Create(user).Error
+}
+
+func (r UserRepository) GetUserByEmail(email string) (*model.User, error) {
+	var user *model.User
+	if err := r.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
