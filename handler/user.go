@@ -20,6 +20,7 @@ func NewUserHandler(userService *service.UserService) *UserHandler {
 }
 
 func (h *UserHandler) GetAllUsers(c echo.Context) error {
+
 	users, err := h.UserService.GetAllUsers()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Falha ao buscar usuários"})
@@ -29,6 +30,7 @@ func (h *UserHandler) GetAllUsers(c echo.Context) error {
 }
 
 func (h *UserHandler) GetUsers(c echo.Context) error {
+
 	userID := c.Param("id")
 	user, err := h.UserService.GetUserID(userID)
 	if err != nil {
@@ -38,6 +40,7 @@ func (h *UserHandler) GetUsers(c echo.Context) error {
 }
 
 func (h *UserHandler) RemoveUser(c echo.Context) error {
+
 	userID := c.Param("id")
 	user, err := h.UserService.RemoveUserByID(userID)
 	if err != nil {
@@ -48,6 +51,7 @@ func (h *UserHandler) RemoveUser(c echo.Context) error {
 }
 
 func (h *UserHandler) CreateUser(c echo.Context) error {
+
 	user := new(model.User)
 	if err := c.Bind(user); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "dados invalidos"})
@@ -58,4 +62,19 @@ func (h *UserHandler) CreateUser(c echo.Context) error {
 
 	}
 	return c.JSON(http.StatusOK, user)
+}
+
+func (h *UserHandler) UserUpdate(c echo.Context) error {
+
+	userID := c.Param("id")
+	var userData model.User
+	if err := c.Bind(&userData); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "erro ao ler os dados da requisição"})
+	}
+
+	userUpdate, err := h.UserService.UserUpdate(userID, userData)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "Usuário não encontrado"})
+	}
+	return c.JSON(http.StatusOK, userUpdate)
 }

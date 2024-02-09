@@ -34,6 +34,7 @@ func main() {
 	e.GET("user/:id", userHandler.GetUsers)
 	e.DELETE("user/:id", userHandler.RemoveUser)
 	e.POST("user", userHandler.CreateUser)
+	e.PUT("user/:id", userHandler.UserUpdate)
 
 	//CONEXAO COM O SERVIDOR/ INICIAR
 	e.Logger.Fatal(e.Start(":8080"))
